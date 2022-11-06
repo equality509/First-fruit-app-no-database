@@ -2,7 +2,9 @@
 // Import Dependencies
 // Bringing in Libraries or Assets exported by others files into this file
 //*************************************** */
-const express = require('express');
+require("dotenv").require() // load variables from .env into process.env
+const express = require('express'); // backend framework
+const fruits = require("./models/fruits") // import fruits data
 
 
 //*************************************** */
@@ -11,28 +13,6 @@ const express = require('express');
 // App tracks all the things the app does when a request is received
 //*************************************** */
 const app = express();
-
-//*************************************** */
-// The Data AKA the Model in Models, Views, Controllers (MVC)
-// Using a basic array since not yet using a database 
-//*************************************** */
-const fruits = [
-    {
-        name:'apple',
-        color: 'red',
-        readyToEat: true
-    },
-    {
-        name:'pear',
-        color: 'green',
-        readyToEat: false
-    },
-    {
-        name:'banana',
-        color: 'yellow',
-        readyToEat: true
-    }
-];
 
 
 //*************************************** */
