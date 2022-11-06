@@ -26,7 +26,13 @@ app.get("/", (req, res) => res.redirect("/fruits"))
 
 // INDEX ROUTE - GET to /fruits - Returns all fruits
 app.get('/fruits/', (req, res) => {
-    res.send(fruits);
+    // res.render(template, data)
+    res.render(
+        'index.ejs',
+        {
+            allFruits:fruits
+        }
+    );
 });
 
 //SHOW ROUTE - GET to /fruits - Returns a single fruit
