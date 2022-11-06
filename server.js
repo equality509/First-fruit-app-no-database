@@ -2,7 +2,7 @@
 // Import Dependencies
 // Bringing in Libraries or Assets exported by others files into this file
 //*************************************** */
-require("dotenv").require() // load variables from .env into process.env
+require("dotenv").config() // load variables from .env into process.env
 const express = require('express'); // backend framework
 const fruits = require("./models/fruits") // import fruits data
 
@@ -21,6 +21,9 @@ const app = express();
 // They are matched pased on path (/path) and method (GET/POST/PUT/DELETE)
 //*************************************** */
 
+// HOME ROUTE - Just redirects you to fruits index for now
+app.get("/", (req, res) => res.redirect("/fruits"))
+
 // INDEX ROUTE - GET to /fruits - Returns all fruits
 app.get('/fruits/', (req, res) => {
     res.send(fruits);
@@ -28,7 +31,10 @@ app.get('/fruits/', (req, res) => {
 
 //SHOW ROUTE - GET to /fruits - Returns a single fruit
 app.get('/fruits/:index', (req, res) => {
-    res.send(fruits[req.params.index]);
+    // res.render(template, data)
+    res.render('show.ejs', {
+        fruit: fruits[req.params.index]
+    });
 });
 
 
