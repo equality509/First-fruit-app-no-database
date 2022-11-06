@@ -24,8 +24,15 @@ const fruits = ['apple', 'banana', 'pear'];
 // These determine how diffent requests are responded to
 // They are matched pased on path (/path) and method (GET/POST/PUT/DELETE)
 //*************************************** */
+
+// INDEX ROUTE - GET to /fruits - Returns all fruits
 app.get('/fruits/', (req, res) => {
     res.send(fruits);
+});
+
+//SHOW ROUTE - GET to /fruits - Returns a single fruit
+app.get('/fruits/:index', (req, res) => {
+    res.send(fruits[req.params.index]);
 });
 
 
