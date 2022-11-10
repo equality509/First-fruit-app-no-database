@@ -6,6 +6,7 @@ require("dotenv").config() // load variables from .env into process.env
 const express = require('express'); // backend framework
 const fruits = require("./models/fruits") // import fruits data
 const morgan = require('morgan')
+const methodOverride = require('method-override')// import method override
 
 //*************************************** */
 // Create the Express App object
@@ -14,13 +15,15 @@ const morgan = require('morgan')
 //*************************************** */
 const app = express();
 app.use(morgan("tiny")) // logging middleware
+
 //*************************************** */
 // Register Middleware with the App
 // Middleware are just functions that handle the request and response
 // object before the routes do
 //*************************************** */
 app.use(express.urlencoded({extended: true})) // parse data from form submissions into req.body
-
+app.use(morgan('dev'))
+app.use(methodOverride("_method")) // swap the method if the url has a ?_method=XXX query
 
 
 //*************************************** */
@@ -66,6 +69,42 @@ app.post("/fruits", (req, res) => {
   });
 
 
+// EDIT route = GET to /fruits/:id/edit - render a form to edit the fruit
+app.get("/fruits/:id/edit", (req, res) => {
+    // render edit.ejs with the existing fruits data
+    res.render("edit.ejs", {
+      fruit: fruits[req.params.id],
+      index: req.params.id
+    })
+    
+  }) 
+
+
+  // update route = PUT to /fruits/:id - update the fruit with info from a form
+app.put("/fruits/:id", (req, res) => {
+    // making sure readyToEat is true or false
+    if (req.body.readyToEat === "on") {
+      req.body.readyToEat = true;
+    } else {
+      req.body.readyToEat = false;
+    }
+  
+    // updating fruit
+    fruits[req.params.id] = req.body
+  
+    // redirect user back to index
+    res.redirect("/fruits")
+  })
+
+
+// DESTROY Route - DELETE to /fuits/:id - deletes the specified
+app.delete("/fruits/:id", (req, res) => {
+    //splice the item out of the array
+    fruits.splice(req.params.id, 1)
+    // redirect user back to index
+    res.redirect("/fruits")
+  })
+
 
 //SHOW ROUTE - GET to /fruits - Returns a single fruit
 app.get('/fruits/:index', (req, res) => {
@@ -73,7 +112,8 @@ app.get('/fruits/:index', (req, res) => {
     res.render(
         'show.ejs', 
     {
-        fruit: fruits[req.params.index]
+        fruit: fruits[req.params.index],
+        index: req.params.index
     });
 });
 
