@@ -24,7 +24,7 @@ app.use(morgan("tiny")) // logging middleware
 app.use(express.urlencoded({extended: true})) // parse data from form submissions into req.body
 app.use(morgan('dev'))
 app.use(methodOverride("_method")) // swap the method if the url has a ?_method=XXX query
-
+app.use("/static", express.static("public")) // it's going serve files from a folder called "public" under /static example public/styles.css => /static/styles.css
 
 //*************************************** */
 // Routes and Routers
@@ -124,7 +124,7 @@ app.get('/fruits/:index', (req, res) => {
 // The Server Listener
 // This turns on the server to listen for a requests on a particular port
 //*************************************** */
-const PORT = process.env.PORT || 3000 // set port to value from environment or 3000
+const PORT = process.env.PORT || 3002 // set port to value from environment or 3000
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
